@@ -1,8 +1,8 @@
-# Enablement Radar
+# AI GTM Enablement Radar
 
 A GTM operations console for AI product portfolios: track the freshness of the public documentation field teams depend on, monitor competitive pricing moves across AI labs and vendors, and assemble evidence-based action memos.
 
-**Live demo:** _add your deployed URL here_
+**Live demo:** https://monamishra95.github.io/enablement-radar/
 
 ## What it does
 
@@ -20,7 +20,7 @@ The rule this prototype was built under: **no invented, estimated, or extrapolat
 
 Documented in full in the collapsible "Prototype scope & limitations" section inside the tool:
 
-1. Change detection is manual in this prototype — it demonstrates the post-detection workflow, not a crawler.
+1. The before/after diff content was hand-sourced; the automated pipeline below detects changes going forward.
 2. Utilization (the second half of asset health) requires internal instrumentation and is shown as N/A rather than fabricated.
 3. The memo generator sequences pre-validated actions rather than authoring new ones — an anti-hallucination guardrail, not a shortcut.
 
@@ -36,14 +36,7 @@ No build, no dependencies. Open `index.html` in any browser, or serve statically
 - **Data discipline holds** — the script never invents dates. `detectedLastUpdated` is set only when an explicit "Last updated <date>" marker exists in the page text; fetch failures are reported as errors, not silently hidden.
 - Runs daily at 06:00 UTC via `.github/workflows/refresh.yml`, and on demand: **Actions tab → Refresh radar data → Run workflow** — that's the manual "refresh now" query.
 
-### Setup (one time, ~10 minutes)
-
-1. Create a GitHub repository and push this folder's contents (including the hidden `.github/` directory).
-2. Repo **Settings → Actions → General**: under "Workflow permissions," select **Read and write permissions** (the job commits `data.json` back).
-3. Repo **Settings → Pages**: deploy from branch `main`, root folder.
-4. Trigger the first run manually from the **Actions** tab to seed content hashes; changes are flagged from the second run onward.
-
-Known caveat: some help-center pages render content client-side or sit behind consent flows; for those, the checker still detects raw-content changes but may not find a "Last updated" marker, and occasional fetch errors are surfaced in the UI rather than hidden.
+Known caveat: some pages sit behind bot protection or render client-side; fetch errors are surfaced in the UI rather than hidden, and a "Last updated" marker may not be found on every page.
 
 ## Disclaimer
 
